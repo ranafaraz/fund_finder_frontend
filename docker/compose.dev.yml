@@ -1,0 +1,23 @@
+services:
+  fund-finder-frontend:
+    container_name: fund_finder_frontend
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "3001:3000" # Map container's port 3000 to host's port 3001
+    env_file:
+      - ../envs/.env.dev
+    volumes:
+      - ../:/app  # Sync local code for live development
+      - /app/node_modules  # Exclude node_modules on the host
+    networks:
+      - fund-finder-network  # Use the backend's network
+
+networks:
+  fund-finder-network:
+    external: true  # Use an already created external network
+
+
+
+# docker-compose -f docker/compose.dev.yml up --build -d
